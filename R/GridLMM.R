@@ -275,7 +275,7 @@ GridLMM_ML = function(formula,data,weights = NULL,relmat = NULL,  normalize_relm
     registerDoParallel(mc.cores)
     results_list = foreach(h2s = iter(h2s_to_test,by = 'row')) %dopar% {
       chol_V_setup = make_chol_V_setup(V_setup,unlist(h2s))
-      chol_Vi = chol_V_setup$chol_V
+      chol_Vi = as(chol_V_setup$chol_V,"dgCMatrix") 
       inv_prior_X = rep(0,p)
       calc_LL(Y,X_cov,X_list=NULL,t(h2s),chol_Vi,inv_prior_X,NULL,NULL,REML,BF=FALSE)
       # SSs <- GridLMM_SS_matrix(Y,chol_Vi,X_cov,list(matrix(0,n,0)),integer(),inv_prior_X)
